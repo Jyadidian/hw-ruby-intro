@@ -40,18 +40,91 @@ end
 
 def hello(name)
   # YOUR CODE HERE
+  "Hello, " << name
 end
 
 def starts_with_consonant? s
   # YOUR CODE HERE
+  # return false if s.empty?
+  
+  alphabet = "a".."z"
+  vowels = ["a","e","i","o","u"]
+  
+  return false if s.empty?
+  firstLetter = s[0].downcase
+  
+  if alphabet.include?(firstLetter) && !vowels.include?(firstLetter)
+    return true
+  else
+    return false
+  end
 end
 
 def binary_multiple_of_4? s
   # YOUR CODE HERE
+  if !s.is_a? String
+    return false
+  end
+  
+  if s.empty?
+    return false
+  end
+  
+  arr = s.split("")
+  arr.each do |x|
+    if x != "0" && x != "1"
+      return false
+    end
+  end
+  
+  length = s.length
+  last = s[length-1]
+  secondToLast = s[length-2]
+  
+  if last == "1" || secondToLast == "1"
+    return false
+  end
+  
+  return true
+  
 end
 
 # Part 3
 
 class BookInStock
 # YOUR CODE HERE
+
+  attr_accessor :isbn, :price
+  
+  def initialize(isbn, price)
+    
+    if !isbn.is_a? String
+      raise ArgumentError.new("ISBN number must be a String!")
+    elsif isbn.empty?
+      raise ArgumentError.new("ISBN cannot be an empty String!")
+    else
+      @isbn = isbn
+    end
+    
+    if price <= 0
+      raise ArgumentError.new("Price must be greater than $0.00!")
+    else
+      @price = price
+    end
+    
+  end
+  
+  def price_as_string
+    price_string = @price.to_s
+    string_length = price_string.length
+    
+    if price_string[string_length-3] == "."
+      return "$#{price_string}"
+    elsif price_string[string_length-2] == "."
+      return "$#{price_string}0"
+    else
+      return "$#{price_string}.00"
+    end
+  end
+  
 end
